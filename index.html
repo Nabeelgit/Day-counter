@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day counter</title>
+    <style>
+        #main {
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>Day counter</h1>
+        <h3>Day: <span id="num-days"></span></h3>
+        <button id="Reset">Reset</button>
+          </div>
+          <script>
+let numDays = document.querySelector("#num-days");
+
+if (localStorage.getItem("last-log") == null){
+  localStorage.setItem("last-log", new Date());
+}
+else {
+  let date1  = new Date(localStorage.getItem("last-log"))
+  let date2 = new Date();
+  var Difference_In_Time = date2.getTime() - date1.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  localStorage.setItem("numberOfDays",   Math.floor(Difference_In_Days));
+}
+
+numDays.innerHTML = localStorage.getItem("numberOfDays");
+
+let reset = document.getElementById("Reset");
+reset.addEventListener("click", () => {
+  localStorage.setItem("last-log", new Date());
+  localStorage.setItem("numberOfDays", 0);
+  numDays.innerHTML = localStorage.getItem("numberOfDays");
+})
+          </script>
+</body>
+</html>
