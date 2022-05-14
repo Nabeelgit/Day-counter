@@ -15,11 +15,12 @@
     <div id="main">
         <h1>Day counter</h1>
         <h3>Day: <span id="num-days"></span></h3>
+        <h3>Time: <span id="num-time"></span></h3>
         <button id="Reset">Reset</button>
           </div>
           <script>
 let numDays = document.querySelector("#num-days");
-
+let numTime = document.querySelector("#num-time")
 if (localStorage.getItem("last-log") == null){
   localStorage.setItem("last-log", new Date());
 }
@@ -29,9 +30,11 @@ else {
   var Difference_In_Time = date2.getTime() - date1.getTime();
   var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   localStorage.setItem("numberOfDays",   Math.floor(Difference_In_Days));
+  localStorage.setItem("time", Difference_In_Time);
 }
 
 numDays.innerHTML = localStorage.getItem("numberOfDays");
+numTime.innerHTML = localStorage.getItem("time");
 
 let reset = document.getElementById("Reset");
 reset.addEventListener("click", () => {
