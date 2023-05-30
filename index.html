@@ -88,13 +88,12 @@
     if (lastLoginDate) {
       var daysSinceLastLogin = calculateDaysSinceLastLogin(lastLoginDate);
       numDays.innerHTML = daysSinceLastLogin;
-    }
-    setLastLoginDate(new Date());
-    function resetDaysCounter() {
-      localStorage.removeItem("lastLoginDate");
+    } else {
+      setLastLoginDate(new Date())
     }
     function resetDaysCounter() {
       localStorage.removeItem("lastLoginDate");
+      numDays.innerHTML = '0';
     }
     let reset = document.getElementById("reset");
     reset.addEventListener("click", resetDaysCounter)
