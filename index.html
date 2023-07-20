@@ -94,6 +94,7 @@
     function resetDaysCounter() {
       localStorage.removeItem("lastLoginDate");
       numDays.innerHTML = '0';
+      setLastLoginDate(new Date())
     }
     let reset = document.getElementById("reset");
     reset.addEventListener("click", resetDaysCounter)
