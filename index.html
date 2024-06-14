@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day counter</title>
+    <title>Day Counter</title>
     <style>
       body {
-        font-family: "JetBrains Mono",monospace;
+        font-family: Arial, sans-serif;
       }
       #main {
         height: 80vh;
@@ -17,87 +17,72 @@
         flex-direction: column;
       }
       .days-text {
-        font-size: 4rem;
+        font-size: 24px; /* More conservative font size for compatibility */
       }
       #num-days {
         margin-left: 0.7rem;
       }
       #reset {
         align-items: center;
-        appearance: none;
         background-color: #FCFCFD;
+        border: 1px solid #cccccc;
         border-radius: 4px;
-        border-width: 0;
-        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-        box-sizing: border-box;
         color: #36395A;
         cursor: pointer;
         display: inline-flex;
-        height: 48px;
+        height: 40px;
         justify-content: center;
-        line-height: 1;
-        list-style: none;
-        overflow: hidden;
-        padding-left: 16px;
-        padding-right: 16px;
-        position: relative;
-        text-align: left;
+        padding: 0 20px;
         text-decoration: none;
-        transition: box-shadow .15s,transform .15s;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        white-space: nowrap;
-        will-change: box-shadow,transform;
-        font-size: 18px;
+        font-size: 16px;
       }
       #reset:hover {
-        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-        transform: translateY(-2px);
-      }
-      #reset:active {
-        box-shadow: #D6D6E7 0 3px 7px inset;
-        transform: translateY(2px);
+        background-color: #f0f0f0;
       }
     </style>
 </head>
 <body>
   <div id="main">
-    <h1 class="days-text">Day:<span id="num-days">0</span></h1>
+    <h1 class="days-text">Time Since Reset: <span id="num-days">0 days, 0 hours, 0 minutes, 0 seconds</span></h1>
     <button id="reset">Reset</button>
   </div>
   <script>
-    let numDays = document.querySelector("#num-days");
+    var numDays = document.getElementById("num-days");
+
     function setLastLoginDate(date) {
       localStorage.setItem("lastLoginDate", date.toISOString());
     }
+
     function getLastLoginDate() {
-      var lastLoginDate = localStorage.getItem("lastLoginDate");
-      if (lastLoginDate) {
-        return new Date(lastLoginDate);
-      }
-      return null;
+      var storedDate = localStorage.getItem("lastLoginDate");
+      return storedDate ? new Date(storedDate) : null;
     }
-    function calculateDaysSinceLastLogin(lastLoginDate) {
+
+    function updateTimeSinceLastLogin() {
+      var lastLoginDate = getLastLoginDate() || new Date();
       var currentDate = new Date();
-      var oneDay = 24 * 60 * 60 * 1000;
-      var daysSinceLastLogin = Math.round(Math.abs((currentDate - lastLoginDate) / oneDay));
-      return daysSinceLastLogin;
+      var diffInSeconds = Math.floor((currentDate - lastLoginDate) / 1000);
+
+      var days = Math.floor(diffInSeconds / (3600 * 24));
+      var hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+      var minutes = Math.floor((diffInSeconds % 3600) / 60);
+      var seconds = Math.floor(diffInSeconds % 60);
+
+      numDays.textContent = days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
     }
-    var lastLoginDate = getLastLoginDate();
-    if (lastLoginDate) {
-      var daysSinceLastLogin = calculateDaysSinceLastLogin(lastLoginDate);
-      numDays.innerHTML = daysSinceLastLogin;
-    } else {
-      setLastLoginDate(new Date())
+
+    if (!getLastLoginDate()) {
+      setLastLoginDate(new Date());
     }
-    function resetDaysCounter() {
+
+    updateTimeSinceLastLogin();
+    setInterval(updateTimeSinceLastLogin, 1000);
+
+    document.getElementById("reset").addEventListener("click", function() {
       localStorage.removeItem("lastLoginDate");
-      numDays.innerHTML = '0';
-      setLastLoginDate(new Date())
-    }
-    let reset = document.getElementById("reset");
-    reset.addEventListener("click", resetDaysCounter)
+      setLastLoginDate(new Date());
+      updateTimeSinceLastLogin();
+    });
   </script>
 </body>
 </html>
