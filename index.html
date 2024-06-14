@@ -85,7 +85,7 @@
         </div>
     <button id="reset">Reset</button>
   </div>
-  <script>
+<script>
     let numDays = document.querySelector("#num-days");
 
     function setLastLoginDate(date) {
@@ -94,7 +94,7 @@
 
     function getLastLoginDate() {
       const storedDate = localStorage.getItem("lastLoginDate");
-      return storedDate ? new Date(storedDate) : null;
+      return storedDate ? new Date(storedValue) : null;
     }
 
     function updateTimeSinceLastLogin() {
@@ -106,14 +106,21 @@
       const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
       const minutes = Math.floor((diffInSeconds % 3600) / 60);
       const seconds = Math.floor(diffInSeconds % 60);
+
       document.getElementById("day").textContent = days;
       document.getElementById("hours").textContent = hours;
       document.getElementById("minutes").textContent = minutes;
       document.getElementById("seconds").textContent = seconds;
+
+      // Update units based on the number
+      document.querySelector("#time .unit:nth-child(1)").textContent = days === 1 ? 'Day' : 'Days';
+      document.querySelector("#time .unit:nth-child(3)").textContent = hours === 1 ? 'Hour' : 'Hours';
+      document.querySelector("#time .unit:nth-child(5)").textContent = minutes === 1 ? 'Minute' : 'Minutes';
+      document.querySelector("#time .unit:nth-child(7)").textContent = seconds === 1 ? 'Second' : 'Seconds';
     }
 
     if (!getLastLoginDate()) {
-      setLastLoginerDate(new Date());
+      setLastLoginDate(new Date());
     }
 
     updateTimeSinceLastLogin();
