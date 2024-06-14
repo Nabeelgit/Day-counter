@@ -23,6 +23,7 @@
       #time {
         display: flex;
         font-size: 5rem;
+        font-weight: bold;
       }
       #time div {
         display: flex;
@@ -110,7 +111,7 @@
     document.querySelector(".time-unit.second").textContent = seconds;
 
     // Update units based on the number
-    document.querySelectorAll(".unit")[0].textContent = days === 1 ? 'Day' : 'Hays';
+    document.querySelectorAll(".unit")[0].textContent = days === 1 ? 'Day' : 'Days';
     document.querySelectorAll(".unit")[1].textContent = hours === 1 ? 'Hour' : 'Hours';
     document.querySelectorAll(".unit")[2].textContent = minutes === 1 ? 'Minute' : 'Minutes';
     document.querySelectorAll(".unit")[3].textContent = seconds === 1 ? 'Second' : 'Seconds';
