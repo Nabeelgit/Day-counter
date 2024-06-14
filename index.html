@@ -7,7 +7,7 @@
     <title>Day Counter</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "JetBrains Mono", monospace;
       }
       #main {
         height: 80vh;
@@ -17,27 +17,47 @@
         flex-direction: column;
       }
       .days-text {
-        font-size: 24px; /* More conservative font size for compatibility */
+        font-size: 4rem;
       }
       #num-days {
         margin-left: 0.7rem;
       }
       #reset {
         align-items: center;
+        appearance: none;
         background-color: #FCFCFD;
-        border: 1px solid #cccccc;
         border-radius: 4px;
+        border-width: 0;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        box-sizing: border-box;
         color: #36395A;
         cursor: pointer;
         display: inline-flex;
-        height: 40px;
+        height: 48px;
         justify-content: center;
-        padding: 0 20px;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 16px;
+        padding-right: 16px;
+        position: relative;
+        text-align: left;
         text-decoration: none;
-        font-size: 16px;
+        transition: box-shadow .15s, transform .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow, transform;
+        font-size: 18px;
       }
       #reset:hover {
-        background-color: #f0f0f0;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        transform: translateY(-2px);
+      }
+      #reset:active {
+        box-shadow: #D6D6E7 0 3px 7px inset;
+        transform: translateY(2px);
       }
     </style>
 </head>
@@ -47,32 +67,32 @@
     <button id="reset">Reset</button>
   </div>
   <script>
-    var numDays = document.getElementById("num-days");
+    let numDays = document.querySelector("#num-days");
 
     function setLastLoginDate(date) {
       localStorage.setItem("lastLoginDate", date.toISOString());
     }
 
     function getLastLoginDate() {
-      var storedDate = localStorage.getItem("lastLoginDate");
+      const storedDate = localStorage.getItem("lastLoginDate");
       return storedDate ? new Date(storedDate) : null;
     }
 
     function updateTimeSinceLastLogin() {
-      var lastLoginDate = getLastLoginDate() || new Date();
-      var currentDate = new Date();
-      var diffInSeconds = Math.floor((currentDate - lastLoginDate) / 1000);
+      const lastLoginDate = getLastLoginDate() || new Date();
+      const currentDate = new Date();
+      const diffInSeconds = Math.floor((currentDate - lastLoginDate) / 1000);
 
-      var days = Math.floor(diffInSeconds / (3600 * 24));
-      var hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
-      var minutes = Math.floor((diffInSeconds % 3600) / 60);
-      var seconds = Math.floor(diffInSeconds % 60);
+      const days = Math.floor(diffInSeconds / (3600 * 24));
+      const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((diffInSeconds % 3600) / 60);
+      const seconds = Math.floor(diffInSeconds % 60);
 
-      numDays.textContent = days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+      numDays.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
     }
 
     if (!getLastLoginDate()) {
-      setLastLoginDate(new Date());
+      setLastLoginerDate(new Date());
     }
 
     updateTimeSinceLastLogin();
