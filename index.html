@@ -16,6 +16,26 @@
         align-items: center;
         flex-direction: column;
       }
+    .countdown {
+    padding: 1rem;
+    text-align: center;
+    }
+    .container h1 {
+        font-size: 5rem;
+        margin: 0;
+    }
+    #time {
+        display: flex;
+    }
+    #time div {
+        display: flex;
+        flex-direction: column;
+        margin: 0 1rem 0 1rem;
+    }
+    #time div .unit {
+        font-size: 1rem;
+        font-weight: bold;
+    }
       .days-text {
         font-size: 4rem;
       }
@@ -63,7 +83,10 @@
 </head>
 <body>
   <div id="main">
-    <h1 class="days-text">Time Since Reset: <span id="num-days">0 days, 0 hours, 0 minutes, 0 seconds</span></h1>
+        <div class="countdown">
+            <h1 id="time"><div><span id="day">00</span> <span class="unit">Days</span></div>:<div><span id="hours">00</span><span class="unit">Hours</span></div>:<div><span id="minutes">00</span><span class="unit">Minutes</span></div>:<div><span id="seconds">00</span><span class="unit">Seconds</span></div></h1>
+            <span class="next_year_indicator">Till <span id="next_year">0000</span></span>
+        </div>
     <button id="reset">Reset</button>
   </div>
   <script>
@@ -87,8 +110,10 @@
       const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
       const minutes = Math.floor((diffInSeconds % 3600) / 60);
       const seconds = Math.floor(diffInSeconds % 60);
-
-      numDays.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+      document.getElementById("day").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
     }
 
     if (!getLastLoginDate()) {
