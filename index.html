@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day Counter</title>
+    <title>Day Counter</es>
     <style>
       body {
         font-family: "JetBrains Mono", monospace;
@@ -16,28 +16,22 @@
         align-items: center;
         flex-direction: column;
       }
-    .countdown {
-    padding: 1rem;
-    text-align: center;
-    }
-    #time {
+      .countdown {
+        padding: 1rem;
+        text-align: center;
+      }
+      #time {
         display: flex;
         font-size: 5rem;
-    }
-    #time div {
+      }
+      #time div {
         display: flex;
         flex-direction: column;
-        margin: 0 1rem 0 1rem;
-    }
-    #time div .unit {
+        margin: 0 1rem;
+      }
+      #time div .unit {
         font-size: 1rem;
         font-weight: bold;
-    }
-      .days-text {
-        font-size: 4rem;
-      }
-      #num-days {
-        margin-left: 0.7rem;
       }
       #reset {
         align-items: center;
@@ -81,20 +75,23 @@
 <body>
   <div id="main">
         <div class="countdown">
-            <h1 id="time"><div><span id="day">00</span> <span class="unit">Days</span></div>:<div><span id="hours">00</span><span class="unit">Hours</span></div>:<div><span id="minutes">00</span><span class="unit">Minutes</span></div>:<div><span id="seconds">00</span><span class="unit">Seconds</span></div></h1>
+            <h1 id="time">
+                <div><span class="time-unit day">00</span> <span class="unit">Days</span></div>:
+                <div><span class="time-unit hour">00</span><span class="unit">Hours</span></div>:
+                <div><span class="time-unit minute">00</span><span class="unit">Minutes</span></div>:
+                <div><span class="time-unit second">00</span><span class="unit">Seconds</span></div>
+            </h1>
         </div>
     <button id="reset">Reset</button>
   </div>
-<script>
-    let numDays = document.querySelector("#num-days");
-
+  <script>
     function setLastLoginDate(date) {
       localStorage.setItem("lastLoginDate", date.toISOString());
     }
 
     function getLastLoginDate() {
       const storedDate = localStorage.getItem("lastLoginDate");
-      return storedDate ? new Date(storedValue) : null;
+      return storedDate ? new Date(storedDate) : null;
     }
 
     function updateTimeSinceLastLogin() {
@@ -107,16 +104,16 @@
       const minutes = Math.floor((diffInSeconds % 3600) / 60);
       const seconds = Math.floor(diffInSeconds % 60);
 
-      document.getElementById("day").textContent = days;
-      document.getElementById("hours").textContent = hours;
-      document.getElementById("minutes").textContent = minutes;
-      document.getElementById("seconds").textContent = seconds;
+      document.querySelector(".time-unit.day").textContent = days;
+      document.querySelector(".time-unit.hour").textContent = hours;
+      document.querySelector(".time-unit.minute").textContent = minutes;
+      document.querySelector(".time-unit.second").textContent = seconds;
 
       // Update units based on the number
-      document.querySelector("#time .unit:nth-child(1)").textContent = days === 1 ? 'Day' : 'Days';
-      document.querySelector("#time .unit:nth-child(3)").textContent = hours === 1 ? 'Hour' : 'Hours';
-      document.querySelector("#time .unit:nth-child(5)").textContent = minutes === 1 ? 'Minute' : 'Minutes';
-      document.querySelector("#time .unit:nth-child(7)").textContent = seconds === 1 ? 'Second' : 'Seconds';
+      document.querySelector(".day + .unit").textContent = days === 1 ? 'Day' : 'Days';
+      document.querySelector(".hour + .unit").textContent = hours === 1 ? 'Hour' : 'Hours';
+      document.querySelector(".minute + .unit").textContent = minutes === 1 ? 'Minute' : 'Minutes';
+      document.querySelector(".second + .unit").textContent = seconds === 1 ? 'Second' : 'Seconds';
     }
 
     if (!getLastLoginDate()) {
