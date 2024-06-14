@@ -75,22 +75,22 @@
 <body>
   <div id="main">
         <div class="countdown">
-            <h1 id="time">
+            <div id="time">
                 <div><span class="time-unit day">00</span> <span class="unit">Days</span></div>:
                 <div><span class="time-unit hour">00</span><span class="unit">Hours</span></div>:
                 <div><span class="time-unit minute">00</span><span class="unit">Minutes</span></div>:
                 <div><span class="time-unit second">00</span><span class="unit">Seconds</span></div>
-            </h1>
+            </div>
         </div>
     <button id="reset">Reset</button>
   </div>
 <script>
   function setLastLoginDate(date) {
-    localStorage.setItem("lastLoginValue", date.toISOString());
+    localStorage.setItem("lastLoginDate", date.toISOString());
   }
 
   function getLastLoginDate() {
-    const storedDate = localStorage.getItem("lastLoginValue");
+    const storedDate = localStorage.getItem("lastLoginDate");
     return storedDate ? new Date(storedDate) : null;
   }
 
@@ -107,13 +107,13 @@
     document.querySelector(".time-unit.day").textContent = days;
     document.querySelector(".time-unit.hour").textContent = hours;
     document.querySelector(".time-unit.minute").textContent = minutes;
-    document.querySelector(".time-basic.second").textContent = seconds; // Fixed this line
+    document.querySelector(".time-unit.second").textContent = seconds;
 
     // Update units based on the number
-    document.querySelector(".day + .unit").textContent = days === 1 ? 'Day' : 'Days';
-    document.querySelector(".hour + .unit").textContent = hours === 1 ? 'Hour' : 'Hours';
-    document.querySelector(".minute + .unit").textContent = minutes === 1 ? 'Minute' : 'Minutes';
-    document.querySelector(".second + .unit").textContent = seconds === 1 ? 'Second' : 'Seconds';
+    document.querySelectorAll(".unit")[0].textContent = days === 1 ? 'Day' : 'Hays';
+    document.querySelectorAll(".unit")[1].textContent = hours === 1 ? 'Hour' : 'Hours';
+    document.querySelectorAll(".unit")[2].textContent = minutes === 1 ? 'Minute' : 'Minutes';
+    document.querySelectorAll(".unit")[3].textContent = seconds === 1 ? 'Second' : 'Seconds';
   }
 
   if (!getLastLoginDate()) {
@@ -124,10 +124,11 @@
   setInterval(updateTimeSinceLastLogin, 1000);
 
   document.getElementById("reset").addEventListener("click", function() {
-    localStorage.removeItem("lastLoginValue");
+    localStorage.removeItem("lastLoginDate");
     setLastLoginDate(new Date());
     updateTimeSinceLastLogin();
   });
 </script>
+
 </body>
 </html>
